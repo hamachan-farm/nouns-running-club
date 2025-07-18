@@ -1,50 +1,19 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NounsRunningClubへようこそ</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      text-align: center;
-      padding: 30px;
-      background-color: #f0f0f0;
-    }
-    img {
-      width: 200px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-    }
-    select {
-      padding: 10px;
-      font-size: 16px;
-    }
-    table {
-      margin: 20px auto;
-      border-collapse: collapse;
-      width: 90%;
-      background: white;
-    }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 10px;
-    }
-    th {
-      background-color: #ffc107;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Nouns Running Club</title>
 </head>
 <body>
-  <h1>NounsRunningClubへようこそ</h1>
-  <img src="fun_run_fun_beer.png" alt="クラブ画像" />
 
-  <h2>月を選んでランキングを見る</h2>
-  <select id="monthSelector" onchange="loadRanking()">
-    <!-- JavaScriptで月を自動追加 -->
-  </select>
+  <h1>🏃‍♂️ Nouns Running Clubへようこそ</h1>
 
-  <table id="rankingTable">
+  <!-- ドロップダウンで月を選ぶ -->
+  <label for="monthSelector">月を選んでください：</label>
+  <select id="monthSelector"></select>
+
+  <!-- 表 -->
+  <table id="rankingTable" border="1" style="margin-top: 20px;">
     <thead>
       <tr>
         <th>順位</th>
@@ -58,60 +27,61 @@
     <tbody></tbody>
   </table>
 
+  <!-- JavaScript -->
   <script>
-  const sheetId = "1KDtAiros3fVMcXywZM83jyYGscbLD7oFtODIdjs2BE0";
-  const select = document.getElementById("monthSelector");
+    const sheetId = "1KDtAiros3fVMcXywZM83jyYGscbLD7oFtODIdjs2BE0";
+    const select = document.getElementById("monthSelector");
 
-  // 過去12ヶ月をドロップダウンに追加
-  const today = new Date();
-  for (let i = 0; i < 12; i++) {
-    const d = new Date(today.getFullYear(), today.getMonth() - i);
-    const y = d.getFullYear();
-    const m = ('0' + (d.getMonth() + 1)).slice(-2);
-    const value = `${y}-${m}`;
+    // 過去12ヶ月をドロップダウンに追加
+    const today = new Date();
+    for (let i = 0; i < 12; i++) {
+      const d = new Date(today.getFullYear(), today.getMonth() - i);
+      const y = d.getFullYear();
+      const m = ('0' + (d.getMonth() + 1)).slice(-2);
+      const value = `${y}-${m}`;
 
-    const option = document.createElement("option");
-    option.value = value;
-    option.textContent = value;
-    select.appendChild(option);
-  }
-
-  async function loadRanking() {
-    const month = select.value;
-    const url = `https://opensheet.elk.sh/${sheetId}/${month}`;
-
-    try {
-      const res = await fetch(url);
-      const data = await res.json();
-
-      const tbody = document.querySelector("#rankingTable tbody");
-      tbody.innerHTML = "";
-
-      data.forEach((row, index) => {
-        const tr = document.createElement("tr");
-
-        tr.innerHTML = `
-          <td>${row["順位"] || index + 1}</td>
-          <td><img src="${row["画像"] || ""}" width="60"></td>
-          <td>${row["名前"] || ""}</td>
-          <td>${row["距離(km)"] || ""}</td>
-          <td>${row["時間(分)"] || ""}</td>
-          <td>${row["回数"] || ""}</td>
-        `;
-
-        tbody.appendChild(tr);
-      });
-
-    } catch (err) {
-      alert("データを読み込めませんでした！");
-      console.error(err);
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = value;
+      select.appendChild(option);
     }
-  }
 
-  // 初期表示 + 月選択時
-  window.onload = loadRanking;
-  select.addEventListener("change", loadRanking);
-</script>
+    async function loadRanking() {
+      const month = select.value;
+      const url = `https://opensheet.elk.sh/${sheetId}/${month}`;
+
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+
+        const tbody = document.querySelector("#rankingTable tbody");
+        tbody.innerHTML = "";
+
+        data.forEach((row, index) => {
+          const tr = document.createElement("tr");
+
+          tr.innerHTML = `
+            <td>${row["順位"] || index + 1}</td>
+            <td><img src="${row["画像"] || ""}" width="60"></td>
+            <td>${row["名前"] || ""}</td>
+            <td>${row["距離(km)"] || ""}</td>
+            <td>${row["時間(分)"] || ""}</td>
+            <td>${row["回数"] || ""}</td>
+          `;
+
+          tbody.appendChild(tr);
+        });
+
+      } catch (err) {
+        alert("データを読み込めませんでした！");
+        console.error(err);
+      }
+    }
+
+    // 初期表示 + 月選択時
+    window.onload = loadRanking;
+    select.addEventListener("change", loadRanking);
+  </script>
 
 </body>
 </html>
