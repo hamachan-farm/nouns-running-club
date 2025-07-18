@@ -33,3 +33,7 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+
+/* ✅ 追加：ランキング表示用のスタイル */
+.user-entry {
+  border-bottom: 1px sol
