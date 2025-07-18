@@ -59,56 +59,59 @@
   </table>
 
   <script>
-    // 過去12ヶ月分をドロップダウンに追加
-    const select = document.getElementById("monthSelector");
-    const today = new Date();
-    for (let i = 0; i < 12; i++) {
-      const d = new Date(today.getFullYear(), today.getMonth() - i);
-      const option = document.createElement("option");
-      const y = d.getFullYear();
-      const m = ('0' + (d.getMonth() + 1)).slice(-2);
-      option.value = `${y}-${m}`;
-      option.textContent = `${y}-${m}`;
-      select.appendChild(option);
+  const sheetId = "1KDtAiros3fVMcXywZM83jyYGscbLD7oFtODIdjs2BE0";
+  const select = document.getElementById("monthSelector");
+
+  // 過去12ヶ月をドロップダウンに追加
+  const today = new Date();
+  for (let i = 0; i < 12; i++) {
+    const d = new Date(today.getFullYear(), today.getMonth() - i);
+    const y = d.getFullYear();
+    const m = ('0' + (d.getMonth() + 1)).slice(-2);
+    const value = `${y}-${m}`;
+
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = value;
+    select.appendChild(option);
+  }
+
+  async function loadRanking() {
+    const month = select.value;
+    const url = `https://opensheet.elk.sh/${sheetId}/${month}`;
+
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+
+      const tbody = document.querySelector("#rankingTable tbody");
+      tbody.innerHTML = "";
+
+      data.forEach((row, index) => {
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+          <td>${row["順位"] || index + 1}</td>
+          <td><img src="${row["画像"] || ""}" width="60"></td>
+          <td>${row["名前"] || ""}</td>
+          <td>${row["距離(km)"] || ""}</td>
+          <td>${row["時間(分)"] || ""}</td>
+          <td>${row["回数"] || ""}</td>
+        `;
+
+        tbody.appendChild(tr);
+      });
+
+    } catch (err) {
+      alert("データを読み込めませんでした！");
+      console.error(err);
     }
+  }
 
-    async function loadRanking() {
-      const month = select.value;
-      const sheetId = "1KDtAiros3fVMcXywZM83jyYGscbLD7oFtODIdjs2BE0";
-      const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${month}`;
+  // 初期表示 + 月選択時
+  window.onload = loadRanking;
+  select.addEventListener("change", loadRanking);
+</script>
 
-      try {
-        const res = await fetch(url);
-        const text = await res.text();
-        const json = JSON.parse(text.substr(47).slice(0, -2));
-        const rows = json.table.rows;
-
-        const tbody = document.querySelector("#rankingTable tbody");
-        tbody.innerHTML = "";
-
-        rows.slice(1).forEach(row => {
-          const tr = document.createElement("tr");
-          row.c.forEach((cell, i) => {
-            const td = document.createElement("td");
-            if (i === 1) {
-              // 画像セル
-              td.innerHTML = `<img src="${cell.v}" width="60" />`;
-            } else {
-              td.textContent = cell?.v || "";
-            }
-            tr.appendChild(td);
-          });
-          tbody.appendChild(tr);
-        });
-
-      } catch (e) {
-        alert("データを読み込めませんでした！");
-        console.error(e);
-      }
-    }
-
-    // 最初の月のランキングを読み込む
-    window.onload = loadRanking;
-  </script>
 </body>
 </html>
