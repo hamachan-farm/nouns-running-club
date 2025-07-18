@@ -1,3 +1,83 @@
+// ==========================
+// ✅ 共通：GASのURL
+// ==========================
+const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxYngKBBk3fPIQ-E6Li56CE3MAh0_E3XDdkKZR3QkIUrz9iyAvJlZhglebFZGTUsrcocw/exec"; // ← あなたのGAS URLに変更！
+
+// ==========================
+// ✅ ページ読み込み時に分岐
+// ==========================
+document.addEventListener("DOMContentLoaded", () => {
+  const path = window.location.pathname;
+
+  if (path.includes("ranking.html")) {
+    setupRankingPage();
+  } else if (path.includes("index.html") || path.endsWith("/")) {
+    setupWelcomePage();
+  }
+});
+
+// ==========================
+// ✅ 1枚目（index.html）の処理
+// ==========================
+function setupWelcomePage() {
+  const nextBtn = document.getElementById("nextBtn");
+  if (nextBtn) {
+    nextBtn.addEventListener("click", goToRanking);
+  }
+}
+
+// 「次へ」ボタン押したときに2枚目へ移動
 function goToRanking() {
   window.location.href = "ranking.html";
+}
+
+// ==========================
+// ✅ 2枚目（ranking.html）の処理
+// ==========================
+function setupRankingPage() {
+  const monthSelect = document.getElementById("monthSelect");
+  const rankingContainer = document.getElementById("ranking");
+
+  // 📅 月リスト生成（今月〜過去12か月）
+  const today = new Date();
+  for (let i = 0; i < 12; i++) {
+    const d = new Date(today.getFullYear(), today.getMonth() - i, 1);
+    const month = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+
+    const option = document.createElement("option");
+    option.value = month;
+    option.textContent = month;
+    monthSelect.appendChild(option);
+  }
+
+  // 🔄 月を選んだとき、GASからデータ取得
+  monthSelect.addEventListener("change", async () => {
+    const month = monthSelect.value;
+    if (!month) return;
+
+    rankingContainer.innerHTML = "読み込み中...";
+
+    try {
+      const res = await fetch(`${GAS_API_URL}?month=${month}`);
+      const data = await res.json();
+
+      if (!data.ranking || data.ranking.length === 0) {
+        rankingContainer.innerHTML = "データがありません";
+        return;
+      }
+
+      // 🏆 ユーザーごとの表示
+      rankingContainer.innerHTML = data.ranking.map(user => `
+        <div class="user-entry">
+          <strong>#${user.rank} ${user.user_name}</strong><br>
+          距離: ${user.distance_km}km / 時間: ${user.time_min}分 / 回数: ${user.count}<br>
+          ${user.profile_image ? `<img src="${user.profile_image}" width="60">` : ""}
+        </div>
+      `).join("");
+
+    } catch (err) {
+      rankingContainer.innerHTML = "エラーが発生しました";
+      console.error(err);
+    }
+  });
 }
