@@ -10,34 +10,11 @@
   <div class="container">
     <h2>月を選んでね！</h2>
     <select id="monthSelect">
-      <option value="">月を選んでください</option>
-      <option value="2025-07">2025-07</option>
-      <option value="2025-06">2025-06</option>
-      <!-- 必要な月を追加 -->
+      <option value="">読み込み中...</option>
     </select>
     <div id="ranking"></div>
   </div>
 
-  <script>
-    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbx.../exec"; // ←あなたのGAS URLに置き換えてね
-
-    document.getElementById("monthSelect").addEventListener("change", async function () {
-      const month = this.value;
-      if (!month) return;
-
-      const res = await fetch(`${GAS_API_URL}?month=${month}`);
-      const data = await res.json();
-
-      const list = data.ranking.map(user => `
-        <div style="border-bottom: 1px solid #ccc; padding: 10px;">
-          <strong>#${user.rank} ${user.user_name}</strong><br>
-          距離: ${user.distance_km}km / 時間: ${user.time_min}分 / 回数: ${user.count}<br>
-          ${user.profile_image ? `<img src="${user.profile_image}" width="60">` : ""}
-        </div>
-      `).join("");
-
-      document.getElementById("ranking").innerHTML = list || "データがありません。";
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
