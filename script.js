@@ -69,9 +69,12 @@ function setupRankingPage() {
       // 🏆 ユーザーごとの表示
       rankingContainer.innerHTML = data.ranking.map(user => `
         <div class="user-entry">
-          <strong>#${user.rank} ${user.user_name}</strong><br>
-          距離: ${user.distance_km}km / 時間: ${user.time_min}分 / 回数: ${user.count}<br>
-          ${user.profile_image ? `<img src="${user.profile_image}" width="60">` : ""}
+          <div class="rank">${user.rank}</div>
+          <img src="${user.profile_image || ''}" alt="${user.user_name}" class="avatar">
+          <div class="user-info">
+            <div class="name">${user.user_name}</div>
+            <div class="distance">${user.distance_km} km / ${user.time_min} min / ${user.count} times</div>
+          </div>
         </div>
       `).join("");
 

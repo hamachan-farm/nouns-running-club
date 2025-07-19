@@ -1,39 +1,152 @@
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
 body {
-  font-family: "Arial", sans-serif;
+  font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
-  background: #f0f8ff;
+  background-color: #f4f7f6;
+  background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
+  color: #333;
 }
 
 .container {
   text-align: center;
-  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 500px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+h1 {
+    font-size: 2.5em;
+    color: #6a11cb;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #2575fc;
+    margin-bottom: 10px;
+}
+
+h3 {
+    font-size: 0.9em;
+    color: #555;
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 30px;
 }
 
 .main-image {
-  width: 80%;
-  max-width: 300px;
-  margin: 20px 0;
+  width: 70%;
+  max-width: 250px;
+  margin: 20px auto;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-button {
-  padding: 10px 20px;
+button, #monthSelect {
+  padding: 15px 30px;
   font-size: 18px;
-  background-color: #007bff;
+  font-weight: 600;
+  background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-button:hover {
-  background-color: #0056b3;
+button:hover, #monthSelect:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* ✅ 追加：ランキング表示用のスタイル */
+#monthSelect {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding: 15px;
+  background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+  background-position: right 15px center;
+  background-repeat: no-repeat;
+  background-size: 12px;
+  padding-right: 40px; /* Make space for custom arrow */
+  margin-bottom: 20px;
+}
+
+/* Custom arrow for select */
+.container select {
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+}
+
+
+#ranking {
+  margin-top: 30px;
+  text-align: left;
+}
+
 .user-entry {
-  border-bottom: 1px sol
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+}
+
+.user-entry:hover {
+    transform: scale(1.02);
+}
+
+.user-entry .rank {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: #6a11cb;
+    width: 50px;
+}
+
+.user-entry .user-info {
+    flex-grow: 1;
+    margin-left: 15px;
+}
+
+.user-entry .user-info .name {
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
+.user-entry .user-info .distance {
+    color: #555;
+    font-size: 0.9em;
+}
+
+.user-entry .avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Add some animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.container {
+  animation: fadeIn 0.5s ease-out;
+}
