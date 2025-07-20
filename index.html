@@ -10,7 +10,11 @@
   <div class="container">
     <h1>🏃‍♂️ Nouns Running Clubへようこそ！</h1>
     <img src="fun_run_fun_beer.png" alt="クラブイメージ" class="main-image">
-    <button onclick="goToRanking()">次へ</button>
+    <p>Stravaへの認証はお済ですか？</p>
+    <div class="button-container">
+      <a href="https://www.strava.com/oauth/authorize?client_id=168291&response_type=code&redirect_uri=https://script.google.com/macros/s/AKfycbzjaaXT3VQQmI-TMpzmuefmxBnB4uaoAbijLLikfBzhwfMSitH-8zbeJ2wSNJE_fdIong/exec&approval_prompt=auto&scope=activity:read" class="button-link">いいえ</a>
+      <button id="yesBtn">はい</button>
+    </div>
   </div>
 
   <script src="script.js"></script>

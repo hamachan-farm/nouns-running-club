@@ -20,9 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
 // ✅ 1枚目（index.html）の処理
 // ==========================
 function setupWelcomePage() {
-  const nextBtn = document.getElementById("nextBtn");
-  if (nextBtn) {
-    nextBtn.addEventListener("click", goToRanking);
+  const yesBtn = document.getElementById("yesBtn");
+  if (yesBtn) {
+    yesBtn.addEventListener("click", goToRanking);
   }
 }
 
