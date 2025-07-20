@@ -1,7 +1,7 @@
 // ==========================
 // ✅ 共通：GASのURL
 // ==========================
-const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxYngKBBk3fPIQ-E6Li56CE3MAh0_E3XDdkKZR3QkIUrz9iyAvJlZhglebFZGTUsrcocw/exec"; // ← あなたのGAS URLに変更！
+const GAS_API_URL = "https://https://script.google.com/macros/s/AKfycbzjaaXT3VQQmI-TMpzmuefmxBnB4uaoAbijLLikfBzhwfMSitH-8zbeJ2wSNJE_fdIong/exec"; // ← あなたのGAS URLに変更！
 
 // ==========================
 // ✅ ページ読み込み時に分岐
