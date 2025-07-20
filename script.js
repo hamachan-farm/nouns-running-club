@@ -24,6 +24,13 @@ function setupWelcomePage() {
   if (yesBtn) {
     yesBtn.addEventListener("click", goToRanking);
   }
+
+  const noBtn = document.getElementById("noBtn");
+  if (noBtn) {
+    noBtn.addEventListener("click", () => {
+      window.location.href = "https://www.strava.com/oauth/authorize?client_id=168291&response_type=code&redirect_uri=https://script.google.com/macros/s/AKfycbzjaaXT3VQQmI-TMpzmuefmxBnB4uaoAbijLLikfBzhwfMSitH-8zbeJ2wSNJE_fdIong/exec&approval_prompt=auto&scope=activity:read";
+    });
+  }
 }
 
 // 「次へ」ボタン押したときに2枚目へ移動
